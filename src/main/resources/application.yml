@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: customer-api-jdbc
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: somepassword
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+#      schema-locations: classpath:schema.sql
+  h2:
+    console:
+      enabled: true
