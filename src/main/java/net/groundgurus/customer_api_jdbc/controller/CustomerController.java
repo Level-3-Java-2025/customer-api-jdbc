@@ -31,7 +31,7 @@ public class CustomerController {
 	@GetMapping
 	public ResponseEntity<List<Customer>> getCustomers() {
 		var customers = customerService.getAllCustomers();
-		return !customers.isEmpty() ? ResponseEntity.ok(customers) : ResponseEntity.ok().body(List.of());
+		return !customers.isEmpty() ? ResponseEntity.ok(customers) : ResponseEntity.status(HttpStatus.NOT_FOUND).body(List.of());
 	}
 
 	@PostMapping
@@ -50,6 +50,6 @@ public class CustomerController {
 	@DeleteMapping("{id}")
 	public ResponseEntity<Void> deleteCustomer(@PathVariable long id) {
 		customerService.deleteCustomer(id);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 }
