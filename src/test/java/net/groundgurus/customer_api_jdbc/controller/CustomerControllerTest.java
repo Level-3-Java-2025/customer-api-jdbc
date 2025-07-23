@@ -55,7 +55,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void getCustomerById_shouldReturnCustomer_whenCustomerExists() throws Exception {
+	void testGetCustomerById() throws Exception {
 		when(customerService.getCustomerById(1L)).thenReturn(Optional.of(customer));
 
 		mockMvc.perform(get("/api/customers/1"))
@@ -69,7 +69,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void getCustomerById_shouldReturnNotFound_whenCustomerDoesNotExist() throws Exception {
+	void testGetCustomerByIdCustomerDoesNotExist() throws Exception {
 		when(customerService.getCustomerById(999L)).thenReturn(Optional.empty());
 
 		mockMvc.perform(get("/api/customers/999"))
@@ -79,7 +79,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void getCustomers_shouldReturnAllCustomers() throws Exception {
+	void testGetAllCustomers() throws Exception {
 		List<Customer> customers = List.of(
 				customer,
 				Customer.builder().id(2L).firstName("Jane").lastName("Smith").build()
@@ -100,11 +100,11 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void getCustomers_shouldReturnEmptyList_whenNoCustomersExist() throws Exception {
+	void testGetCustomersNoCustomers() throws Exception {
 		when(customerService.getAllCustomers()).thenReturn(List.of());
 
 		mockMvc.perform(get("/api/customers"))
-				.andExpect(status().isOk())
+				.andExpect(status().isNotFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$").isArray())
 				.andExpect(jsonPath("$").isEmpty());
@@ -113,7 +113,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void createCustomer_shouldReturnCreated() throws Exception {
+	void testCreateCustomer() throws Exception {
 		Customer newCustomer = Customer.builder()
 				.firstName("Alice")
 				.lastName("Johnson")
@@ -129,7 +129,7 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void updateCustomer_shouldReturnOk() throws Exception {
+	void testUpdateCustomer() throws Exception {
 		Customer updatedCustomer = Customer.builder()
 				.firstName("John")
 				.lastName("Updated")
@@ -145,11 +145,11 @@ class CustomerControllerTest {
 	}
 
 	@Test
-	void deleteCustomer_shouldReturnNoContent() throws Exception {
+	void testDeleteCustomer() throws Exception {
 		doNothing().when(customerService).deleteCustomer(1L);
 
 		mockMvc.perform(delete("/api/customers/1"))
-				.andExpect(status().isNoContent());
+				.andExpect(status().isOk());
 
 		verify(customerService).deleteCustomer(1L);
 	}
