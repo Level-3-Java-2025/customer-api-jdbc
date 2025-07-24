@@ -36,7 +36,7 @@ public class CustomerControllerSBTest {
 				.lastName("Doe")
 				.build();
 
-		ResponseEntity<Void> response = restTemplate.postForEntity("/api/customers", customer, Void.class);
+		ResponseEntity<Void> response = restTemplate.postForEntity(CUSTOMER_API, customer, Void.class);
 
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 	}
